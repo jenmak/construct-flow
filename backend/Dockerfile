@@ -7,5 +7,4 @@ COPY package.json ./
 
 RUN bun install
 
-RUN bun run build
 CMD ["bun", "run", "dev"]
