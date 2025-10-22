@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { CREATE_PROJECT_SCHEMA, CreateProjectSchema } from "@permitflow/backend/schemas"
+import { CREATE_PROJECT_SCHEMA, CreateProjectSchema } from "@construct-flow/backend/schemas"
 import { useForm } from "react-hook-form"
 import { Link, useNavigate } from "react-router"
 import { defaultProjectData } from "../consts/QuestionnaireConsts"

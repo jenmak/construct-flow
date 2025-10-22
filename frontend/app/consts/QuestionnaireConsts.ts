@@ -1,4 +1,4 @@
-import { CreateProjectSchema } from "@permitflow/backend/schemas"
+import { CreateProjectSchema } from "@construct-flow/backend/schemas"
 import { QuestionnaireFormDataType } from "../types/QuestionnaireTypes"
 
 // Default questionnaire form data.

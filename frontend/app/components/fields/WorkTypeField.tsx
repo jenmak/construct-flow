@@ -1,7 +1,7 @@
 import { Checkbox } from "@/components/ui/checkbox"
 import { FormDescription, FormField, FormItem, FormLabel } from "@/components/ui/form"
 import { Label } from "@/components/ui/label"
-import { WorkType } from "@permitflow/backend/schemas"
+import { WorkType } from "@construct-flow/backend/schemas"
 import { WORK_TYPE_LABELS } from "../../consts/QuestionnaireLabels"
 import { useProjectStore } from "../../stores/projectStore"
 
