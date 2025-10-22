@@ -7,8 +7,7 @@ COPY package.json ./
 
 RUN bun install
 
-# now bring the backend source
-COPY backend ./
+COPY ./
 
 RUN bun run build
 CMD ["bun", "run", "dev"]
