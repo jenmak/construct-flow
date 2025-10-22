@@ -1,9 +1,8 @@
 FROM oven/bun:latest
 WORKDIR /app
 
-# copy only the backend first for faster installs
-COPY apps/backend/package.json ./
-# if you have a lockfile inside apps/backend, copy it too:
+COPY package.json ./
+# if you have a lockfile inside backend, copy it too:
 # COPY apps/backend/bun.lockb ./
 
 RUN bun install
