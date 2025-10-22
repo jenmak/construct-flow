@@ -8,7 +8,8 @@
     "./schemas": "./app/schemas/index.ts"
   },
   "scripts": {
-    "dev": "bun run --hot src/index.ts"
+    "dev": "bun run --hot src/index.ts",
+    "start": "bun run --hot src/index.ts"
   },
   "dependencies": {
     "@hono/trpc-server": "^0.3.4",
