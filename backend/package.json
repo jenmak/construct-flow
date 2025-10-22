@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "bun run --hot src/index.ts",
-    "start": "bun run --hot src/index.ts"
+    "start": "bun server.js"
   },
   "dependencies": {
     "@hono/trpc-server": "^0.3.4",
