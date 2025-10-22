@@ -14,4 +14,4 @@ RUN bun install
 RUN bun run build
 
 # Start command
-CMD ["bun", "run", "start"]
+CMD ["bun", "run", "dev"]
