@@ -13,3 +13,5 @@ cmds = ["cd frontend && NODE_ENV=production bun run build"]
 # Serve the built static files
 cmd = "cd frontend && bun serve.js"
 
+# Railway rebuild trigger: 1761251371
+# Force rebuild Thu Oct 23 16:32:04 EDT 2025
