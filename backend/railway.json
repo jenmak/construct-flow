@@ -5,7 +5,15 @@
     "watchPatterns": [
       "backend/**",
       "shared/**"
-    ]
+    ],
+    "nixpacksPath": "backend/nixpacks.toml",
+    "nixpacksPlan": {
+      "phases": {
+        "install": {
+          "cmds": ["bun install --frozen-lockfile --production=false"]
+        }
+      }
+    }
   },
   "deploy": {
     "startCommand": "cd backend && bun server.js",

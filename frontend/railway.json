@@ -5,7 +5,18 @@
     "watchPatterns": [
       "frontend/**",
       "shared/**"
-    ]
+    ],
+    "nixpacksPath": "frontend/nixpacks.toml",
+    "nixpacksPlan": {
+      "phases": {
+        "install": {
+          "cmds": ["bun install --frozen-lockfile --production=false"]
+        },
+        "build": {
+          "cmds": ["cd frontend && NODE_ENV=production bun run build"]
+        }
+      }
+    }
   },
   "deploy": {
     "startCommand": "cd frontend && bun serve.js",
