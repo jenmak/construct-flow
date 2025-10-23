@@ -37,6 +37,7 @@
   },
   "scripts": {
     "dev": "turbo dev",
-    "build": "echo 'Monorepo root - no build needed'"
+    "build": "echo 'Monorepo root - no build needed'",
+    "start": "echo 'Monorepo root - individual services handle start'"
   }
 }
