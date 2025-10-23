@@ -1,8 +1,9 @@
 [phases.setup]
 nixPkgs = ["nodejs_20", "bun"]
+nixLibs = ["glibc"]
 
 [phases.install]
-cmds = ["bun install"]
+cmds = ["bun install --frozen-lockfile"]
 
 [start]
-cmd = "bun run start"
+cmd = "bun server.js"
