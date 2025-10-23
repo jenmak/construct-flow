@@ -10,5 +10,5 @@ bun install
 build = "bun run build"
 
 [dev]
-# How to start your app
+# How to start your application
 cmd = "bun run dev"
