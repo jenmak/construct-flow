@@ -5,5 +5,9 @@ nixLibs = ["glibc"]
 [phases.install]
 cmds = ["bun install --frozen-lockfile"]
 
+[phases.build]
+# Backend doesn't need a build step - Bun runs TypeScript directly
+cmds = ["echo 'No build needed for backend - Bun runs TypeScript directly'"]
+
 [start]
 cmd = "cd backend && bun server.js"
