@@ -3,7 +3,8 @@ nixPkgs = ["nodejs_20", "bun"]
 nixLibs = ["glibc"]
 
 [phases.install]
-cmds = ["bun install --frozen-lockfile"]
+# Install from monorepo root to access workspace dependencies
+cmds = ["cd .. && bun install --frozen-lockfile && cd backend"]
 
 [start]
 cmd = "bun server.js"

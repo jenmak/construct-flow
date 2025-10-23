@@ -1,0 +1,13 @@
+{
+  "name": "@construct-flow/shared",
+  "type": "module",
+  "version": "0.0.0",
+  "exports": {
+    "./schemas": "./schemas.ts",
+    "./config": "./config.ts",
+    "./types": "./types.ts"
+  },
+  "dependencies": {
+    "zod": "^3.24.2"
+  }
+}

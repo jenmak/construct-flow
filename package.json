@@ -12,7 +12,8 @@
   },
   "workspaces": [
     "backend",
-    "frontend"
+    "frontend",
+    "shared"
   ],
   "prettier": {
     "printWidth": 100,

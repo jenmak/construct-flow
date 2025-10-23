@@ -1,5 +1,5 @@
 import { trpc, trpcClient } from "@/lib/trpc"
-import { CreateProjectSchema } from "@construct-flow/backend/schemas"
+import { CreateProjectSchema } from "@construct-flow/shared/schemas"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 interface UseCreateProjectOptions {
