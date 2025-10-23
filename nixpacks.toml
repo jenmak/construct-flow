@@ -1,0 +1,11 @@
+[phases.setup]
+nixPkgs = ["nodejs_20", "bun"]
+nixLibs = ["glibc"]
+
+[phases.install]
+cmds = ["bun install --frozen-lockfile --production=false"]
+
+[phases.build]
+# Root monorepo - individual services handle their own builds
+cmds = ["echo 'Monorepo root - build handled by individual services'"]
+
