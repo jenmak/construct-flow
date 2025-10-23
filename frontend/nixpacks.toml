@@ -9,6 +9,6 @@ cmds = ["bun install --frozen-lockfile"]
 cmds = ["cd frontend && bun run build"]
 
 [start]
-# Frontend is static, so we need a simple file server
-cmd = "echo 'Frontend built successfully. Serve the dist folder with a static file server.'"
+# Serve the built static files
+cmd = "cd frontend && bun serve.js"
 

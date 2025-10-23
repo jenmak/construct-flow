@@ -14,11 +14,22 @@ export const queryClient = new QueryClient({
   }
 })
 
+// Get API URL from environment or use default
+const getApiUrl = () => {
+  // In production (Railway), use the environment variable
+  if (import.meta.env.VITE_CONSTRUCT_FLOW_API_URL) {
+    return import.meta.env.VITE_CONSTRUCT_FLOW_API_URL
+  }
+
+  // In development, use localhost
+  return "http://localhost:3333/trpc"
+}
+
 export const trpcClient = createTRPCClient<AppRouter>({
   links: [
     loggerLink(),
     httpBatchLink({
-      url: "http://localhost:3333/trpc"
+      url: getApiUrl()
     })
   ]
 })

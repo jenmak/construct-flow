@@ -8,7 +8,8 @@
     ]
   },
   "deploy": {
-    "startCommand": "echo 'Static frontend - serve frontend/dist folder'",
-    "restartPolicyType": "NEVER"
+    "startCommand": "cd frontend && bun serve.js",
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 10
   }
 }
