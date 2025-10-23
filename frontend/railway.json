@@ -1,0 +1,14 @@
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "builder": "NIXPACKS",
+    "watchPatterns": [
+      "frontend/**",
+      "shared/**"
+    ]
+  },
+  "deploy": {
+    "startCommand": "echo 'Static frontend - serve frontend/dist folder'",
+    "restartPolicyType": "NEVER"
+  }
+}

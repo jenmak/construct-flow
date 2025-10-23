@@ -3,11 +3,12 @@
   "build": {
     "builder": "NIXPACKS",
     "watchPatterns": [
-      "backend/**"
+      "backend/**",
+      "shared/**"
     ]
   },
   "deploy": {
-    "startCommand": "bun server.js",
+    "startCommand": "cd backend && bun server.js",
     "healthcheckPath": "/",
     "healthcheckTimeout": 100,
     "restartPolicyType": "ON_FAILURE",

@@ -1,14 +1,14 @@
 [build]
-# Install dependencies from monorepo root to access shared workspace
+# Install dependencies from monorepo root
 install = """
 curl -fsSL https://bun.sh/install | bash
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
-cd .. && bun install && cd frontend
+bun install
 """
 # Custom build step
-build = "bun run build"
+build = "cd frontend && bun run build"
 
 [dev]
 # How to start your application
-cmd = "bun run dev"
+cmd = "cd frontend && bun run dev"
