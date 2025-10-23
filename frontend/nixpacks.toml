@@ -10,8 +10,8 @@ cmds = ["bun install --frozen-lockfile --production=false"]
 cmds = ["cd frontend && NODE_ENV=production bun run build"]
 
 [start]
-# Serve the built static files
-cmd = "cd frontend && bun serve.js"
+# MUST use bun serve.js - DO NOT run vite dev server
+cmd = "cd frontend && bun run start"
 
 # Railway rebuild trigger: 1761251371
 # Force rebuild Thu Oct 23 16:32:04 EDT 2025

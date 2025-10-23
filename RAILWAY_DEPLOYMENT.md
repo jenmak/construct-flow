@@ -47,6 +47,7 @@ Both backend and frontend services **MUST** have an **EMPTY Root Directory** set
 
 #### 3. **Settings → Deploy**
    - **Start Command:** `cd frontend && bun serve.js`
+   - ⚠️ **CRITICAL:** If this field shows anything else (like `vite` or `bun run dev`), manually change it!
    - Click **Save**
 
 #### 4. **Settings → Environment Variables**
