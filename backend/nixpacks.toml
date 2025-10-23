@@ -3,7 +3,8 @@ nixPkgs = ["nodejs_20", "bun"]
 nixLibs = ["glibc"]
 
 [phases.install]
-cmds = ["bun install --frozen-lockfile"]
+# Install all dependencies including devDependencies
+cmds = ["bun install --frozen-lockfile --production=false"]
 
 [phases.build]
 # Backend doesn't need a build step - Bun runs TypeScript directly

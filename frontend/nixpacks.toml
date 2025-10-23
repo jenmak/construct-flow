@@ -3,10 +3,11 @@ nixPkgs = ["nodejs_20", "bun"]
 nixLibs = ["glibc"]
 
 [phases.install]
-cmds = ["bun install --frozen-lockfile"]
+# Install all dependencies including devDependencies for building
+cmds = ["bun install --frozen-lockfile --production=false"]
 
 [phases.build]
-cmds = ["cd frontend && bun run build"]
+cmds = ["cd frontend && NODE_ENV=production bun run build"]
 
 [start]
 # Serve the built static files
