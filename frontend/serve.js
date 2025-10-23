@@ -2,12 +2,21 @@
 
 // Simple static file server for the built frontend
 import { existsSync } from "fs"
-import { resolve } from "path"
+import { resolve, dirname } from "path"
+import { fileURLToPath } from "url"
 
-const distPath = resolve(import.meta.dir, "dist")
+// Get the directory of this script
+const __dirname = dirname(fileURLToPath(import.meta.url))
+const distPath = resolve(__dirname, "dist")
+
+console.log("🔍 Script directory:", __dirname)
+console.log("🔍 Looking for dist at:", distPath)
+console.log("🔍 Dist exists:", existsSync(distPath))
 
 if (!existsSync(distPath)) {
-  console.error("❌ Error: dist folder not found. Did you run 'bun run build'?")
+  console.error("❌ Error: dist folder not found at:", distPath)
+  console.error("Current working directory:", process.cwd())
+  console.error("Script location:", __dirname)
   process.exit(1)
 }
 
