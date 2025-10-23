@@ -6,8 +6,6 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 bun install
 """
-# Custom build step
-build = "bun run build"
 
 [dev]
 # How to start your app
