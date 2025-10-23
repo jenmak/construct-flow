@@ -7,6 +7,9 @@
     "./config": "./config.ts",
     "./types": "./types.ts"
   },
+  "scripts": {
+    "build": "echo 'Shared package - no build needed'"
+  },
   "dependencies": {
     "zod": "^3.24.2"
   }
