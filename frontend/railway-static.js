@@ -33,7 +33,7 @@ try {
 
     // Health check endpoints
     if (path === "/health" || path === "/healthz" || path === "/ping") {
-      console.log("✅ Health check requested")
+      console.log("✅ Health check requested at:", path)
       return new Response("OK", { 
         status: 200,
         headers: { 
