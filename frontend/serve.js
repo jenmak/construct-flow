@@ -43,6 +43,11 @@ try {
       const url = new URL(req.url)
       let filePath = url.pathname
 
+      // Health check endpoint
+      if (filePath === "/health" || filePath === "/healthz") {
+        return new Response("OK", { status: 200 })
+      }
+
       // Handle root path
       if (filePath === "/") {
         filePath = "/index.html"
