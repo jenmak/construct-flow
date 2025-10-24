@@ -20,11 +20,12 @@ if (!existsSync(distPath)) {
 const port = process.env.PORT || 3000
 console.log("🔧 Port:", port)
 
-// Minimal server
-Bun.serve({
-  port: Number(port),
-  hostname: "0.0.0.0",
-  fetch(req) {
+// Minimal server with error handling
+try {
+  const server = Bun.serve({
+    port: Number(port),
+    hostname: "0.0.0.0",
+    fetch(req) {
     const url = new URL(req.url)
     const path = url.pathname
 
@@ -54,7 +55,13 @@ Bun.serve({
         return new Response(Bun.file(resolve(distPath, "index.html")))
       }
     })
-  }
-})
+    }
+  })
 
-console.log(`✅ Server ready on port ${port}`)
+  console.log(`✅ Server ready on port ${server.port}`)
+  console.log(`🌐 Health check available at: http://0.0.0.0:${server.port}/health`)
+
+} catch (error) {
+  console.error("❌ Failed to start server:", error)
+  process.exit(1)
+}
