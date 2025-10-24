@@ -23,13 +23,14 @@ if (!existsSync(distPath)) {
 console.log("🚀 Starting Construct Flow Frontend Server...")
 console.log(`📁 Serving from: ${distPath}`)
 
-const port = process.env.PORT || 6173
+const port = process.env.PORT || 3000
 const hostname = "0.0.0.0"
 
 console.log("🔧 Environment variables:")
 console.log("  PORT:", process.env.PORT)
 console.log("  NODE_ENV:", process.env.NODE_ENV)
 console.log("  RAILWAY_ENVIRONMENT:", process.env.RAILWAY_ENVIRONMENT)
+console.log("  RAILWAY_PUBLIC_DOMAIN:", process.env.RAILWAY_PUBLIC_DOMAIN)
 console.log("🔧 Server will bind to:", `${hostname}:${port}`)
 
 // Create a simple static file server using Bun
@@ -46,6 +47,19 @@ try {
       // Health check endpoint
       if (filePath === "/health" || filePath === "/healthz") {
         return new Response("OK", { status: 200 })
+      }
+
+      // Test endpoint
+      if (filePath === "/test") {
+        return new Response(JSON.stringify({
+          status: "OK",
+          timestamp: new Date().toISOString(),
+          port: port,
+          hostname: hostname
+        }), {
+          status: 200,
+          headers: { "Content-Type": "application/json" }
+        })
       }
 
       // Handle root path
