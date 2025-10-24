@@ -27,12 +27,7 @@ const server = Bun.serve({
     const path = url.pathname
 
     console.log(`📥 ${req.method} ${path}`)
-
-    // Simple health check
-    if (path === "/health") {
-      return new Response("OK", { status: 200 })
-    }
-
+    
     // Serve static files
     const file = Bun.file(`./dist${path === "/" ? "/index.html" : path}`)
 
