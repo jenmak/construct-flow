@@ -1,4 +1,4 @@
-import { PermitRequirementsSchema, QuestionnaireSchema } from "@construct-flow/shared/schemas"
+import { PermitRequirementsSchema, QuestionnaireSchema } from "../../src/schemas"
 import { create } from "zustand"
 import { devtools } from "zustand/middleware"
 import { QuestionnaireFormDataType, QuestionnaireOptions } from "../types/QuestionnaireTypes"

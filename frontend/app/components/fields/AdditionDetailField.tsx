@@ -2,7 +2,7 @@ import { FormDescription, FormField, FormItem, FormLabel } from "@/components/ui
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { AdditionDetail } from "@construct-flow/shared/schemas"
+import { AdditionDetail } from "../../src/schemas"
 import { useEffect, useState } from "react"
 import { ADDITION_DETAIL_LABELS } from "../../consts/QuestionnaireLabels"
 import { useProjectStore } from "../../stores/projectStore"

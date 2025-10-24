@@ -1,5 +1,5 @@
 import { trpc, trpcClient } from "@/lib/trpc"
-import { QuestionnaireSchema } from "@construct-flow/shared/schemas"
+import { QuestionnaireSchema } from "../../src/schemas"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Project } from "../stores/projectStore"
 import { QuestionnaireFormDataType } from "../types/QuestionnaireTypes"

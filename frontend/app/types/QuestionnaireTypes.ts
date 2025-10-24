@@ -1,4 +1,4 @@
-import { QuestionnaireSchema } from "@construct-flow/shared/schemas"
+import { QuestionnaireSchema } from "../../src/schemas"
 import z from "zod"
 
 export interface QuestionnaireFormOptions {

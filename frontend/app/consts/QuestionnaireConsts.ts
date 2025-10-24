@@ -1,4 +1,4 @@
-import { CreateProjectSchema } from "@construct-flow/shared/schemas"
+import { CreateProjectSchema } from "../../src/schemas"
 import { QuestionnaireFormDataType } from "../types/QuestionnaireTypes"
 
 // Default questionnaire form data.

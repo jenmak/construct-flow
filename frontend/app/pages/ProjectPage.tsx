@@ -1,6 +1,6 @@
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { QuestionnaireSchema } from "@construct-flow/shared/schemas"
+import { QuestionnaireSchema } from "../../src/schemas"
 import { useEffect, useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 import { useParams } from "react-router"
