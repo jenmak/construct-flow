@@ -26,48 +26,64 @@ console.log(`📁 Serving from: ${distPath}`)
 const port = process.env.PORT || 6173
 const hostname = "0.0.0.0"
 
+console.log("🔧 Environment variables:")
+console.log("  PORT:", process.env.PORT)
+console.log("  NODE_ENV:", process.env.NODE_ENV)
+console.log("  RAILWAY_ENVIRONMENT:", process.env.RAILWAY_ENVIRONMENT)
+console.log("🔧 Server will bind to:", `${hostname}:${port}`)
+
 // Create a simple static file server using Bun
-const server = Bun.serve({
-  port: Number(port),
-  hostname,
-  fetch(req) {
-    const url = new URL(req.url)
-    let filePath = url.pathname
+console.log("🔧 Creating Bun server...")
 
-    // Handle root path
-    if (filePath === "/") {
-      filePath = "/index.html"
-    }
+try {
+  const server = Bun.serve({
+    port: Number(port),
+    hostname,
+    fetch(req) {
+      const url = new URL(req.url)
+      let filePath = url.pathname
 
-    // Try to serve the file
-    const file = Bun.file(resolve(distPath, "." + filePath))
-
-    // If file doesn't exist and it's not an asset, serve index.html for SPA routing
-    return file.exists().then((exists) => {
-      if (exists) {
-        return new Response(file)
-      } else if (!filePath.includes(".")) {
-        // No file extension means it's probably a SPA route
-        return new Response(Bun.file(resolve(distPath, "index.html")))
-      } else {
-        return new Response("Not Found", { status: 404 })
+      // Handle root path
+      if (filePath === "/") {
+        filePath = "/index.html"
       }
-    })
-  },
-})
 
-console.log(`✅ Server running on port ${server.port}`)
-console.log(`🌐 Server URL: http://${hostname}:${server.port}`)
-console.log(`📦 Environment: ${process.env.NODE_ENV || "production"}`)
+      // Try to serve the file
+      const file = Bun.file(resolve(distPath, "." + filePath))
 
-// Graceful shutdown
-process.on("SIGINT", () => {
-  console.log("\n🛑 Shutting down server...")
-  process.exit(0)
-})
+      // If file doesn't exist and it's not an asset, serve index.html for SPA routing
+      return file.exists().then((exists) => {
+        if (exists) {
+          return new Response(file)
+        } else if (!filePath.includes(".")) {
+          // No file extension means it's probably a SPA route
+          return new Response(Bun.file(resolve(distPath, "index.html")))
+        } else {
+          return new Response("Not Found", { status: 404 })
+        }
+      })
+    },
+  })
 
-process.on("SIGTERM", () => {
-  console.log("\n🛑 Shutting down server...")
-  process.exit(0)
-})
+  console.log(`✅ Server running on port ${server.port}`)
+  console.log(`🌐 Server URL: http://${hostname}:${server.port}`)
+  console.log(`📦 Environment: ${process.env.NODE_ENV || "production"}`)
+
+  // Graceful shutdown
+  process.on("SIGINT", () => {
+    console.log("\n🛑 Shutting down server...")
+    process.exit(0)
+  })
+
+  process.on("SIGTERM", () => {
+    console.log("\n🛑 Shutting down server...")
+    process.exit(0)
+  })
+
+} catch (error) {
+  console.error("❌ Failed to start server:", error)
+  console.error("Error details:", error.message)
+  console.error("Stack trace:", error.stack)
+  process.exit(1)
+}
 
