@@ -23,7 +23,7 @@
     }
   },
   "deploy": {
-    "startCommand": "bun frontend/serve.js",
+    "startCommand": "bun frontend/railway-serve.js",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
   },
