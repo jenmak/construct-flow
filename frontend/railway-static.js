@@ -28,9 +28,18 @@ Bun.serve({
     const url = new URL(req.url)
     const path = url.pathname
 
-    // Health check
-    if (path === "/health") {
-      return new Response("OK")
+    console.log(`📥 Request: ${req.method} ${path}`)
+
+    // Health check endpoints
+    if (path === "/health" || path === "/healthz" || path === "/ping") {
+      console.log("✅ Health check requested")
+      return new Response("OK", { 
+        status: 200,
+        headers: { 
+          "Content-Type": "text/plain",
+          "Cache-Control": "no-cache"
+        }
+      })
     }
 
     // Serve files
