@@ -30,6 +30,15 @@ try {
 
         console.log(`📥 ${req.method} ${path}`)
         
+        // Test endpoint
+        if (path === "/test") {
+          console.log("✅ Test endpoint hit")
+          return new Response("Server is working!", { 
+            status: 200,
+            headers: { "Content-Type": "text/plain" }
+          })
+        }
+        
         // Serve static files
         const file = Bun.file(`./dist${path === "/" ? "/index.html" : path}`)
 
@@ -48,6 +57,8 @@ try {
 
   console.log(`✅ Server running on port ${server.port}`)
   console.log("🌐 Server is ready to accept requests")
+  console.log(`🔗 Server URL: http://0.0.0.0:${server.port}`)
+  console.log(`🔗 Test URL: http://0.0.0.0:${server.port}/test`)
 
 } catch (error) {
   console.error("❌ Failed to start server:", error)
