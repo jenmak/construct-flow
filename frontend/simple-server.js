@@ -2,9 +2,21 @@
 
 // Ultra-simple server for Railway
 console.log("🚀 Starting simple server...")
+console.log("🔧 Environment:", process.env.NODE_ENV)
+console.log("🔧 Railway environment:", process.env.RAILWAY_ENVIRONMENT)
+console.log("🔧 Current directory:", process.cwd())
+console.log("🔧 Files in current directory:", await import("fs").then(fs => fs.readdirSync(".")))
 
 const port = process.env.PORT || 3000
 console.log("🔧 Port:", port)
+
+// Check if dist folder exists
+const distExists = await import("fs").then(fs => fs.existsSync("./dist"))
+console.log("🔧 Dist folder exists:", distExists)
+if (distExists) {
+  const distFiles = await import("fs").then(fs => fs.readdirSync("./dist"))
+  console.log("🔧 Dist files:", distFiles)
+}
 
 // Simple HTTP server
 const server = Bun.serve({
