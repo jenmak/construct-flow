@@ -1,7 +1,7 @@
 // Type-only import that works in both local dev and Railway deployment
 // In local dev, this resolves to the actual backend AppRouter
 // In Railway, this uses the stub from shared package
-import type { AppRouter } from "@construct-flow/backend"
+import type { AppRouter } from "../types/trpc"
 import { QueryClient } from "@tanstack/react-query"
 import { createTRPCClient, httpBatchLink, loggerLink } from "@trpc/client"
 import { createTRPCOptionsProxy } from "@trpc/tanstack-react-query"
