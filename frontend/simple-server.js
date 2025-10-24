@@ -22,15 +22,20 @@ if (distExists) {
 const server = Bun.serve({
   port: Number(port),
   hostname: "0.0.0.0",
-  fetch(req) {
+  async fetch(req) {
     const url = new URL(req.url)
     const path = url.pathname
-    
+
     console.log(`📥 ${req.method} ${path}`)
-    
+
+    // Simple health check
+    if (path === "/health") {
+      return new Response("OK", { status: 200 })
+    }
+
     // Serve static files
     const file = Bun.file(`./dist${path === "/" ? "/index.html" : path}`)
-    
+
     if (await file.exists()) {
       return new Response(file)
     } else {
