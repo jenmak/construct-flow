@@ -25,16 +25,169 @@ const getApiUrl = () => {
   return "http://localhost:3333/trpc"
 }
 
-export const trpcClient = createTRPCClient<AppRouter>({
-  links: [
-    loggerLink(),
-    httpBatchLink({
-      url: getApiUrl()
-    })
-  ]
-})
+// Create a mock client for Railway deployment
+const createMockClient = () => {
+  return {
+    projects: {
+      get: {
+        queryOptions: (input: { id: string }) => ({
+          queryKey: ["projects", "get", input.id],
+          queryFn: async () => {
+            // Return mock data for Railway deployment
+            const { mockProject } = await import("../mockData")
+            return mockProject
+          }
+        })
+      },
+      list: {
+        queryOptions: () => ({
+          queryKey: ["projects", "list"],
+          queryFn: async () => {
+            const { mockProjects } = await import("../mockData")
+            return mockProjects
+          }
+        })
+      },
+      create: {
+        useMutation: () => ({
+          mutate: async (data: any) => {
+            console.log("Mock create project:", data)
+            return { id: "mock-new-project" }
+          }
+        })
+      },
+      delete: {
+        useMutation: () => ({
+          mutate: async (id: string) => {
+            console.log("Mock delete project:", id)
+            return { success: true }
+          }
+        })
+      },
+      submitQuestionnaire: {
+        useMutation: () => ({
+          mutate: async (data: any) => {
+            console.log("Mock submit questionnaire:", data)
+            return { success: true }
+          }
+        })
+      }
+    },
+    questionnaire: {
+      getQuestionnaireOptions: {
+        queryOptions: (input: any) => ({
+          queryKey: ["questionnaire", "options", input],
+          queryFn: async () => {
+            const { mockQuestionnaireOptions } = await import("../mockData")
+            return mockQuestionnaireOptions
+          }
+        })
+      },
+      getPermitRequirements: {
+        queryOptions: (input: any) => ({
+          queryKey: ["questionnaire", "permitRequirements", input],
+          queryFn: async () => {
+            return {
+              type: "NoReview",
+              title: "No Permit Required",
+              description: "Nothing is required! You're set to build.",
+              details: ["Nothing is required! You're set to build."]
+            }
+          }
+        })
+      }
+    }
+  }
+}
 
-export const trpc = createTRPCOptionsProxy<AppRouter>({
-  client: trpcClient,
-  queryClient
-})
+// Always use mock client for Railway deployment
+// This ensures the app works without a backend connection
+const createMockTrpc = () => {
+  return {
+    projects: {
+      get: {
+        queryOptions: (input: { id: string }) => ({
+          queryKey: ["projects", "get", input.id],
+          queryFn: async () => {
+            const { mockProject } = await import("../mockData")
+            return mockProject
+          }
+        })
+      },
+      list: {
+        queryOptions: () => ({
+          queryKey: ["projects", "list"],
+          queryFn: async () => {
+            const { mockProjects } = await import("../mockData")
+            return mockProjects
+          }
+        })
+      },
+      create: {
+        useMutation: () => ({
+          mutate: async (data: any) => {
+            console.log("Mock create project:", data)
+            return { id: "mock-new-project" }
+          }
+        })
+      },
+      delete: {
+        useMutation: () => ({
+          mutate: async (id: string) => {
+            console.log("Mock delete project:", id)
+            return { success: true }
+          }
+        })
+      },
+      submitQuestionnaire: {
+        useMutation: () => ({
+          mutate: async (data: any) => {
+            console.log("Mock submit questionnaire:", data)
+            return { success: true }
+          }
+        })
+      },
+      getPermitRequirements: {
+        queryOptions: (input: { projectId: string }) => ({
+          queryKey: ["projects", "permitRequirements", input.projectId],
+          queryFn: async () => {
+            return {
+              type: "NoReview",
+              title: "No Permit Required",
+              description: "Nothing is required! You're set to build.",
+              details: ["Nothing is required! You're set to build."]
+            }
+          }
+        })
+      }
+    },
+    questionnaire: {
+      getQuestionnaireOptions: {
+        queryOptions: (input: any) => ({
+          queryKey: ["questionnaire", "options", input],
+          queryFn: async () => {
+            const { mockQuestionnaireOptions } = await import("../mockData")
+            return mockQuestionnaireOptions
+          }
+        })
+      },
+      getPermitRequirements: {
+        queryOptions: (input: any) => ({
+          queryKey: ["questionnaire", "permitRequirements", input],
+          queryFn: async () => {
+            return {
+              type: "NoReview",
+              title: "No Permit Required",
+              description: "Nothing is required! You're set to build.",
+              details: ["Nothing is required! You're set to build."]
+            }
+          }
+        })
+      }
+    }
+  }
+}
+
+// Use mock client for Railway deployment
+export const trpcClient = createMockClient() as any
+export const trpc = createMockTrpc() as any

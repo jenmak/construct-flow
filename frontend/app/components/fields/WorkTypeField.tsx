@@ -1,7 +1,7 @@
 import { Checkbox } from "@/components/ui/checkbox"
 import { FormDescription, FormField, FormItem, FormLabel } from "@/components/ui/form"
 import { Label } from "@/components/ui/label"
-import { WorkType } from "../../src/schemas"
+import { WorkType } from "../../../src/schemas"
 import { WORK_TYPE_LABELS } from "../../consts/QuestionnaireLabels"
 import { useProjectStore } from "../../stores/projectStore"
 
