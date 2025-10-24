@@ -18,26 +18,40 @@ if (distExists) {
   console.log("🔧 Dist files:", distFiles)
 }
 
-// Simple HTTP server
-const server = Bun.serve({
-  port: Number(port),
-  hostname: "0.0.0.0",
-  async fetch(req) {
-    const url = new URL(req.url)
-    const path = url.pathname
+// Simple HTTP server with error handling
+try {
+  const server = Bun.serve({
+    port: Number(port),
+    hostname: "0.0.0.0",
+    async fetch(req) {
+      try {
+        const url = new URL(req.url)
+        const path = url.pathname
 
-    console.log(`📥 ${req.method} ${path}`)
-    
-    // Serve static files
-    const file = Bun.file(`./dist${path === "/" ? "/index.html" : path}`)
+        console.log(`📥 ${req.method} ${path}`)
+        
+        // Serve static files
+        const file = Bun.file(`./dist${path === "/" ? "/index.html" : path}`)
 
-    if (await file.exists()) {
-      return new Response(file)
-    } else {
-      // SPA fallback
-      return new Response(Bun.file("./dist/index.html"))
+        if (await file.exists()) {
+          return new Response(file)
+        } else {
+          // SPA fallback
+          return new Response(Bun.file("./dist/index.html"))
+        }
+      } catch (error) {
+        console.error("❌ Error handling request:", error)
+        return new Response("Internal Server Error", { status: 500 })
+      }
     }
-  }
-})
+  })
 
-console.log(`✅ Server running on port ${server.port}`)
+  console.log(`✅ Server running on port ${server.port}`)
+  console.log("🌐 Server is ready to accept requests")
+
+} catch (error) {
+  console.error("❌ Failed to start server:", error)
+  console.error("Error details:", error.message)
+  console.error("Stack trace:", error.stack)
+  process.exit(1)
+}
