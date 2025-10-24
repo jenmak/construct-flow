@@ -31,9 +31,20 @@ const server = Bun.serve({
 
     console.log("📥 Request:", path)
 
-    // Health check
-    if (path === "/health") {
-      return new Response("OK", { status: 200 })
+    // Health check endpoints
+    if (path === "/health" || path === "/healthz" || path === "/ping") {
+      return new Response("OK", {
+        status: 200,
+        headers: { "Content-Type": "text/plain" }
+      })
+    }
+
+    // Railway health check
+    if (path === "/" && req.headers.get("user-agent")?.includes("Railway")) {
+      return new Response("OK", {
+        status: 200,
+        headers: { "Content-Type": "text/plain" }
+      })
     }
 
     // Serve static files
