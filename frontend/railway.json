@@ -26,7 +26,5 @@
     "startCommand": "bun frontend/simple-server.js",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
-  },
-  "healthcheckPath": "/health",
-  "healthcheckTimeout": 300
+  }
 }

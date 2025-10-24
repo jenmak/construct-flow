@@ -28,15 +28,6 @@ const server = Bun.serve({
     
     console.log(`📥 ${req.method} ${path}`)
     
-    // Health check
-    if (path === "/health" || path === "/") {
-      console.log("✅ Health check OK")
-      return new Response("OK", { 
-        status: 200,
-        headers: { "Content-Type": "text/plain" }
-      })
-    }
-    
     // Serve static files
     const file = Bun.file(`./dist${path === "/" ? "/index.html" : path}`)
     
@@ -50,4 +41,3 @@ const server = Bun.serve({
 })
 
 console.log(`✅ Server running on port ${server.port}`)
-console.log("🌐 Health check: http://0.0.0.0:" + server.port + "/health")
