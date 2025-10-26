@@ -11,7 +11,7 @@ export function useQuestionnaireOptions() {
   const { setQuestionnaireOptions } = useProjectStore()
 
   const query = useQuery({
-    ...trpc.projects.getQuestionnaireOptions.queryOptions()
+    ...trpc.questionnaire.getQuestionnaireOptions.queryOptions()
   })
 
   useEffect(() => {
