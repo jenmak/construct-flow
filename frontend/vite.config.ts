@@ -11,14 +11,9 @@ export default defineConfig({
   ],
   clearScreen: false,
   server: {
-    port: 6173,
     host: "0.0.0.0",
-    allowedHosts: [
-      "localhost",
-      "127.0.0.1",
-      "construct-flowfrontend-production.up.railway.app",
-      ".railway.app" // Allow all Railway subdomains
-    ]
+    port: process.env.PORT ? parseInt(process.env.PORT) : 3000,
+    allowedHosts: ["all"]
   },
   resolve: {
     alias: {
