@@ -5,13 +5,23 @@ import { defineConfig } from "vite"
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: "/",
   plugins: [
     react(),
     tailwindcss()
   ],
   build: {
     outDir: "dist",
-    emptyOutDir: true,
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: undefined
+      }
+    }
+  },
+  preview: {
+    port: 3000,
+    open: true
   },
   clearScreen: false,
   server: {

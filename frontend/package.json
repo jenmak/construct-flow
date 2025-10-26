@@ -8,7 +8,10 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "npx serve -s dist -l $PORT"
+    "start": "serve dist -s"
+  },
+  "engines": {
+    "node": ">=20.0.0"
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.3",

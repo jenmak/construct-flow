@@ -1,17 +1,12 @@
 [phases.setup]
-nixPkgs = ["nodejs_20", "bun"]
-nixLibs = ["glibc"]
-
-[phases.install]
-# Install all dependencies including devDependencies for building
-cmds = ["cd /app && bun install --frozen-lockfile --production=false"]
+nixPkgs = ['bun'] # Bun’s the boss
 
 [phases.build]
-cmds = ["cd frontend && NODE_ENV=production bun run build"]
+cmds = ['bun install', 'bun run build'] # Build that Vite goodness
 
 [start]
-# Railway-compatible static server
-cmd = "bun frontend/simple-server.js"
+cmd = 'bunx serve dist -s' # Serve it up, SPA-style
 
-# Railway rebuild trigger: 1761251371
-# Force rebuild Thu Oct 23 16:32:04 EDT 2025
+[staticAssets]
+mountPath = '/'
+destination = '/app/dist'
