@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-"start": "node -e \"console.log('Starting serve...'); require('child_process').execSync('serve -s dist -l ' + (process.env.PORT || '8080'), { stdio: 'inherit' })\""
+    "start": "npx serve -s dist -l $PORT"
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.3",
