@@ -9,6 +9,10 @@ export default defineConfig({
     react(),
     tailwindcss()
   ],
+  build: {
+    outDir: "dist",
+    emptyOutDir: true,
+  },
   clearScreen: false,
   server: {
     host: "0.0.0.0",
