@@ -25,6 +25,29 @@ const getApiUrl = () => {
   return "http://localhost:3333/trpc"
 }
 
+// Create real tRPC client for development
+const createRealTrpcClient = () => {
+  return createTRPCClient<AppRouter>({
+    links: [
+      loggerLink(),
+      httpBatchLink({
+        url: getApiUrl()
+      })
+    ]
+  })
+}
+
+// Create real tRPC for React Query integration
+const createRealTrpc = () => {
+  return createTRPCOptionsProxy<AppRouter>({
+    client: createRealTrpcClient()
+  })
+}
+
+// Mock data store for development/testing
+let mockProjects: any[] = []
+let mockProjectCounter = 0
+
 // Create a mock client for Railway deployment
 const createMockClient = () => {
   return {
@@ -33,55 +56,121 @@ const createMockClient = () => {
         queryOptions: (input: { id: string }) => ({
           queryKey: ["projects", "get", input.id],
           queryFn: async () => {
-            // Return mock data for Railway deployment
-            const { mockProject } = await import("../mockData")
-            return mockProject
+            const project = mockProjects.find(p => p.id === input.id)
+            if (!project) {
+              throw new Error("Project not found")
+            }
+            return project
           }
-        })
+        }),
+        queryKey: (input: { id: string }) => ["projects", "get", input.id]
       },
       list: {
         queryOptions: () => ({
           queryKey: ["projects", "list"],
           queryFn: async () => {
-            const { mockProjects } = await import("../mockData")
             return mockProjects
           }
-        })
+        }),
+        queryKey: () => ["projects", "list"]
       },
       create: {
         useMutation: () => ({
           mutate: async (data: any) => {
             console.log("Mock create project:", data)
-            return { id: "mock-new-project" }
+            const newProject = {
+              id: `mock-project-${++mockProjectCounter}`,
+              name: data.name,
+              location: data.location,
+              createdAt: new Date().toISOString(),
+              questionnaire: null,
+              permitRequirements: null
+            }
+            mockProjects.push(newProject)
+            return newProject
           }
-        })
+        }),
+        mutate: async (data: any) => {
+          console.log("Mock create project:", data)
+          const newProject = {
+            id: `mock-project-${++mockProjectCounter}`,
+            name: data.name,
+            location: data.location,
+            createdAt: new Date().toISOString(),
+            questionnaire: null,
+            permitRequirements: null
+          }
+          mockProjects.push(newProject)
+          return newProject
+        }
       },
       delete: {
         useMutation: () => ({
           mutate: async (id: string) => {
             console.log("Mock delete project:", id)
+            const index = mockProjects.findIndex(p => p.id === id)
+            if (index !== -1) {
+              mockProjects.splice(index, 1)
+            }
             return { success: true }
           }
-        })
+        }),
+        mutate: async (id: string) => {
+          console.log("Mock delete project:", id)
+          const index = mockProjects.findIndex(p => p.id === id)
+          if (index !== -1) {
+            mockProjects.splice(index, 1)
+          }
+          return { success: true }
+        }
       },
       submitQuestionnaire: {
         useMutation: () => ({
           mutate: async (data: any) => {
             console.log("Mock submit questionnaire:", data)
+            const project = mockProjects.find(p => p.id === data.projectId)
+            if (project) {
+              // Update project with questionnaire and permit requirements
+              project.questionnaire = data.questionnaire
+              project.permitRequirements = {
+                type: "NoReview",
+                title: "No Permit Required",
+                description: "Nothing is required! You're set to build.",
+                details: ["Nothing is required! You're set to build."]
+              }
+              return project
+            }
             return { success: true }
           }
-        })
+        }),
+        mutate: async (data: any) => {
+          console.log("Mock submit questionnaire:", data)
+          const project = mockProjects.find(p => p.id === data.projectId)
+          if (project) {
+            // Update project with questionnaire and permit requirements
+            project.questionnaire = data.questionnaire
+            project.permitRequirements = {
+              type: "NoReview",
+              title: "No Permit Required",
+              description: "Nothing is required! You're set to build.",
+              details: ["Nothing is required! You're set to build."]
+            }
+            return project
+          }
+          return { success: true }
+        }
       }
     },
     questionnaire: {
       getQuestionnaireOptions: {
-        queryOptions: (input: any) => ({
+        queryOptions: (input?: any) => ({
           queryKey: ["questionnaire", "options", input],
           queryFn: async () => {
             const { mockQuestionnaireOptions } = await import("../mockData")
             return mockQuestionnaireOptions
           }
-        })
+        }),
+        queryKey: (input?: any) => ["questionnaire", "options", input]
       },
       getPermitRequirements: {
         queryOptions: (input: any) => ({
@@ -94,7 +183,8 @@ const createMockClient = () => {
               details: ["Nothing is required! You're set to build."]
             }
           }
-        })
+        }),
+        queryKey: (input: any) => ["questionnaire", "permitRequirements", input]
       }
     }
   }
@@ -109,43 +199,109 @@ const createMockTrpc = () => {
         queryOptions: (input: { id: string }) => ({
           queryKey: ["projects", "get", input.id],
           queryFn: async () => {
-            const { mockProject } = await import("../mockData")
-            return mockProject
+            const project = mockProjects.find(p => p.id === input.id)
+            if (!project) {
+              throw new Error("Project not found")
+            }
+            return project
           }
-        })
+        }),
+        queryKey: (input: { id: string }) => ["projects", "get", input.id]
       },
       list: {
         queryOptions: () => ({
           queryKey: ["projects", "list"],
           queryFn: async () => {
-            const { mockProjects } = await import("../mockData")
             return mockProjects
           }
-        })
+        }),
+        queryKey: () => ["projects", "list"]
       },
       create: {
         useMutation: () => ({
           mutate: async (data: any) => {
             console.log("Mock create project:", data)
-            return { id: "mock-new-project" }
+            const newProject = {
+              id: `mock-project-${++mockProjectCounter}`,
+              name: data.name,
+              location: data.location,
+              createdAt: new Date().toISOString(),
+              questionnaire: null,
+              permitRequirements: null
+            }
+            mockProjects.push(newProject)
+            return newProject
           }
-        })
+        }),
+        mutate: async (data: any) => {
+          console.log("Mock create project:", data)
+          const newProject = {
+            id: `mock-project-${++mockProjectCounter}`,
+            name: data.name,
+            location: data.location,
+            createdAt: new Date().toISOString(),
+            questionnaire: null,
+            permitRequirements: null
+          }
+          mockProjects.push(newProject)
+          return newProject
+        }
       },
       delete: {
         useMutation: () => ({
           mutate: async (id: string) => {
             console.log("Mock delete project:", id)
+            const index = mockProjects.findIndex(p => p.id === id)
+            if (index !== -1) {
+              mockProjects.splice(index, 1)
+            }
             return { success: true }
           }
-        })
+        }),
+        mutate: async (id: string) => {
+          console.log("Mock delete project:", id)
+          const index = mockProjects.findIndex(p => p.id === id)
+          if (index !== -1) {
+            mockProjects.splice(index, 1)
+          }
+          return { success: true }
+        }
       },
       submitQuestionnaire: {
         useMutation: () => ({
           mutate: async (data: any) => {
             console.log("Mock submit questionnaire:", data)
+            const project = mockProjects.find(p => p.id === data.projectId)
+            if (project) {
+              // Update project with questionnaire and permit requirements
+              project.questionnaire = data.questionnaire
+              project.permitRequirements = {
+                type: "NoReview",
+                title: "No Permit Required",
+                description: "Nothing is required! You're set to build.",
+                details: ["Nothing is required! You're set to build."]
+              }
+              return project
+            }
             return { success: true }
           }
-        })
+        }),
+        mutate: async (data: any) => {
+          console.log("Mock submit questionnaire:", data)
+          const project = mockProjects.find(p => p.id === data.projectId)
+          if (project) {
+            // Update project with questionnaire and permit requirements
+            project.questionnaire = data.questionnaire
+            project.permitRequirements = {
+              type: "NoReview",
+              title: "No Permit Required",
+              description: "Nothing is required! You're set to build.",
+              details: ["Nothing is required! You're set to build."]
+            }
+            return project
+          }
+          return { success: true }
+        }
       },
       getPermitRequirements: {
         queryOptions: (input: { projectId: string }) => ({
@@ -163,13 +319,14 @@ const createMockTrpc = () => {
     },
     questionnaire: {
       getQuestionnaireOptions: {
-        queryOptions: (input: any) => ({
+        queryOptions: (input?: any) => ({
           queryKey: ["questionnaire", "options", input],
           queryFn: async () => {
             const { mockQuestionnaireOptions } = await import("../mockData")
             return mockQuestionnaireOptions
           }
-        })
+        }),
+        queryKey: (input?: any) => ["questionnaire", "options", input]
       },
       getPermitRequirements: {
         queryOptions: (input: any) => ({
@@ -182,12 +339,15 @@ const createMockTrpc = () => {
               details: ["Nothing is required! You're set to build."]
             }
           }
-        })
+        }),
+        queryKey: (input: any) => ["questionnaire", "permitRequirements", input]
       }
     }
   }
 }
 
-// Use mock client for Railway deployment
-export const trpcClient = createMockClient() as any
-export const trpc = createMockTrpc() as any
+// Use real tRPC client in development, mock in production
+const isDevelopment = import.meta.env.DEV
+
+export const trpcClient = isDevelopment ? createRealTrpcClient() : createMockClient() as any
+export const trpc = isDevelopment ? createRealTrpc() : createMockTrpc() as any
