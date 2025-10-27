@@ -1,5 +1,24 @@
 # Construct Flow
 
+Construct Flow is a full stack project to provide an example of a questionnaire that saves to the backend with edit features. The logic for the questionnaire can be seen below in requirements.
+
+## Architecture
+
+- **Monorepo**: frontend, backend and shared packages with workspace:\* dependencies in package.json, managed by Bun.
+
+- **/frontend**: Fast-loading, clean, single page app built with React/Vite
+- **/backend**: Hono/tRPC API server with Node.js
+- **/shared**: Common schemas and types
+
+## Libraries
+
+- **Turbo**: Monorepo build system and task runner, managing the 3-package workspace.
+- **Bun**: Bun is used for package management and scripts, replacing npm/yarn.
+- **React**: https://react.dev/learn
+- **tRPC**: https://trpc.io/docs
+- **shadcn/ui**: https://ui.shadcn.com/docs/components/radio-group
+- **Tailwind**: https://tailwindcss.com/
+
 ## Requirements
 
 1. Users are able to create projects (Already completed in the scaffold)
@@ -103,8 +122,3 @@ Once the user is finished, they should be able to submit the form and get back t
 1. Full Review
 2. OTC Review
 3. No Permit
-
-- React: https://react.dev/learn
-- tRPC: https://trpc.io/docs
-- shadcn/ui: https://ui.shadcn.com/docs/components/radio-group
-- Tailwind: https://tailwindcss.com/
